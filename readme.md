@@ -13,6 +13,7 @@
 The goal of our device is to help maintain accountability for a person towards a specific food type through requiring active participation and providing feedback using information from MyFitnessPal.
 
 ## Hardware Used
+* **Mbed LPC 1768**
 * **uLCD-144-G2**: for the UI
 * **Adafruit Bluefruit LE chi**: to allow for the user to input the initial data and view their progress.
 * **Adafruit ESP8266 Huzzah Wifi Module**: to communicate with the MyFitnessPal database
@@ -20,7 +21,30 @@ The goal of our device is to help maintain accountability for a person towards a
 * **SD card**: the log the info of user intake
 * **HC-SR04 Sonar Sensor**: to detect when someone is close by; used towards power management
 * **Speaker** : to play noise when necessary
-* **Battery Pack**: Power Source
+* **Battery Pack, Barrel Jack Adapter**: Power Source
+
+## Wiring
+|Mbed | uLCD|
+|-----|-----|
+|Gnd | Gnd|
+|Vu |+5v|
+|p27|RX|
+|p28|TX|
+|p29|Reset|
+
+|Mbed|Sonar Sensor|
+|----|----|
+|Gnd|Gnd|
+|Vu|+5V|
+|p6| trig|
+|p7|echo|
+
+|Mbed|Pushbutton|
+|---|---|
+|Gnd|Gnd|
+|p26| pb|
+
+
 
 ## How to use
 1. Attach the device onto the container of targeted food/snacks
@@ -33,14 +57,14 @@ The goal of our device is to help maintain accountability for a person towards a
 
 ## Images
 - Picture of Constructed Device
-- Picture of UI
-
-![](/uLCDpic.jpg)
+- Picture of UI?
 - Anything else
 
 ## Source Code
 - AWS Implementation
 - main project code
+
+## Wiring
 
 ### Other Possible  Topics to include
 - Power management
