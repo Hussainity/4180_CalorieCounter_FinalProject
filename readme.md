@@ -34,6 +34,8 @@ The goal of our device is to help maintain accountability for a person towards a
 ## Images
 - Picture of Constructed Device
 - Picture of UI
+
+![](/uLCDpic.jpg)
 - Anything else
 
 ## Source Code
