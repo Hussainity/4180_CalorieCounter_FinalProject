@@ -1,4 +1,3 @@
-# 4180 S20 - Final Project
 
 # Your Fitness Buddy
 
@@ -36,8 +35,8 @@ The goal of our device is to help maintain accountability for a person towards a
 |----|----|
 |Gnd|Gnd|
 |Vu|+5V|
-|p6| trig|
-|p7|echo|
+|p12| trig|
+|p13|echo|
 
 |Mbed|Pushbutton|
 |---|---|
@@ -63,8 +62,6 @@ The goal of our device is to help maintain accountability for a person towards a
 ## Source Code
 - AWS Implementation
 - main project code
-
-## Wiring
 
 ### Other Possible  Topics to include
 - Power management
