@@ -17,11 +17,12 @@ Mutex howMany;
 
 int howManyTodayold = 0;
 int howManyToday = 0;
-// NEED USER INPUT TO INITIILAZIXE THIS VALUE
-int dailyLimit;
+// NEED USER INPUT TO INITIILALIZE THIS VALUE
+int dailyLimit; // DEFAULT: CALL DATABASE TO UPDATE THE AMOUNT
+int increment = 20; // DEFAULT: CALL DATABASE TO UPDATE THE AMOUNT
 std::string foodName = "";  // so save the food name
-std::string daily = ""; // to save user input for dailyLimit into a string
-
+std::string macro = ""; // to save user's desired macro
+std::string daily = ""; // to save daily amount
 
 void dist(int distance)
 {
@@ -36,10 +37,19 @@ void dist(int distance)
             uLCD.filled_rectangle(0,0,127,127,RED);
             uLCD.filled_rectangle(15,10,110,90,0x50C878);
             uLCD.textbackground_color(0x50C878);
+            uLCD.color(BLACK);
             uLCD.locate(2,1);
             uLCD.printf("Hello!");
-            uLCD.locate(2,3);
+            uLCD.locate(3,3);
+            uLCD.text_width(1);
+            uLCD.text_height(2);
             uLCD.printf("%d / %d\n", howManyToday, dailyLimit);
+            uLCD.color(WHITE);
+            uLCD.text_width(1);
+            uLCD.text_height(2);
+            uLCD.textbackground_color(RED);
+            uLCD.locate(6,14);
+            uLCD.printf("%s", macro);
 
                     
             } else {
@@ -49,10 +59,19 @@ void dist(int distance)
                 uLCD.filled_rectangle(0,0,127,127,0x86c5da);
                 uLCD.filled_rectangle(15,10,110,90,0x50C878);
                 uLCD.textbackground_color(0x50C878);
+                uLCD.color(BLACK);
                 uLCD.locate(2,1);
                 uLCD.printf("Hello!");
-                uLCD.locate(2,3);
+                uLCD.locate(3,3);
+                uLCD.text_width(1);
+                uLCD.text_height(2);
                 uLCD.printf("%d / %d\n", howManyToday, dailyLimit);
+                uLCD.color(WHITE);
+                uLCD.text_width(1);
+                uLCD.text_height(1);
+                uLCD.locate(6,14);
+                uLCD.textbackground_color(0x86c5da);
+                uLCD.printf("%s", macro);
       
             }
                 howManyTodayold = howManyToday;
@@ -80,8 +99,7 @@ void updateHowManyToday(void) {
 
 int main()
 {
-    bool startUp = 1, name = 1;
-    // NEED USER INPUT TO INITIILAZIXE THIS VALUE
+    bool startUp = 1, name = 1, limit = 1;
     uLCD.cls();
     uLCD.filled_rectangle(0,0,127,127,0x86c5da);
     uLCD.line(0, 9, 127, 9, GREEN);
@@ -124,39 +142,84 @@ int main()
         uLCD.filled_rectangle(0,118,127,127,GREEN);
         uLCD.textbackground_color(0x86c5da);
         uLCD.color(BLACK);
-        uLCD.locate(1,2);
         uLCD.text_height(1);
             
-        uLCD.printf("What will be your daily limit? :\n Type'!'");
+        uLCD.locate(1,1);
+        uLCD.printf("What macro are you monitoring? : \n\n1. Carbs\n2. Protein\n3. Fat \n4. Calories \n");
         uLCD.color(WHITE);
-        uLCD.locate(1,6);
         while(startUp) {
             if (pc.readable() ){
                 char v = pc.getc();
-                if (v == '!') {
+                if (v == '1') {
                     startUp = 0;
+                    macro = "Carbs";
+                } else if (v == '2') {
+                    startUp = 0;
+                    macro = "Protein";
+                } else if (v == '3') {
+                    startUp = 0;
+                    macro = "Fat";
+                } else if (v == '4') {
+                    startUp = 0;
+                    macro = "Calories";
+                    
+                    }
+            }
+        }
+        
+        uLCD.cls();
+        uLCD.filled_rectangle(0,0,127,127,0x86c5da);
+        uLCD.line(0, 9, 127, 9, GREEN);
+        uLCD.filled_rectangle(0,0,127,9,GREEN);
+        uLCD.line(0, 118, 127, 118, GREEN);
+        uLCD.filled_rectangle(0,118,127,127,GREEN);
+        uLCD.textbackground_color(0x86c5da);
+        uLCD.color(BLACK);
+        uLCD.locate(1,2);
+        uLCD.text_height(1);
+            
+        uLCD.printf("What will be your daily limit?\n ");
+        uLCD.color(WHITE);
+        
+        while (limit) {
+            if (pc.readable()){
+                char v = pc.getc();
+                if (v == '!') {
+                    limit = 0;
                 } else {
                     daily.push_back(v);
                     uLCD.printf("%c" , v);
-                } 
+                }
             }
-        }
             
-            // convert from string to int
+        }
+        
         std::istringstream iss (daily);
         iss >> dailyLimit;
+        
+        
+            // CALL DATABASE ENTRY HERE using "foodName" and "macro" TO UPDATE "increment (int)"
+            
 
     uLCD.cls();
     uLCD.filled_rectangle(0,0,127,127,0x86c5da);
     uLCD.filled_rectangle(15,10,110,90,0x50C878);
     uLCD.textbackground_color(0x50C878);
     uLCD.color(BLACK);
-    uLCD.locate(3,2);
     uLCD.text_width(2);
     uLCD.text_height(2);
+    uLCD.locate(2,1);
     uLCD.printf("Hello!");
-    uLCD.locate(2,3);
-    uLCD.printf("%d / %d\n", howManyToday, dailyLimit);
+    uLCD.locate(3,3);
+    uLCD.text_width(1);
+    uLCD.text_height(2);
+    uLCD.printf("%d / %d", howManyToday, dailyLimit);
+    uLCD.color(WHITE);
+    uLCD.textbackground_color(0x86c5da);
+    uLCD.text_width(1);
+    uLCD.text_height(1);
+    uLCD.locate(6,14);
+    uLCD.printf("%s", macro);
     
     pc.baud(9600);
     mu.startUpdates();//start measuring the distance
