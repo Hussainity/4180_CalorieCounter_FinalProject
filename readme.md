@@ -67,4 +67,7 @@ The goal of our device is to help maintain accountability for a person towards a
 - Power management
 - More on MyFitnessPal API and/or AWS
 
+## Resources Used
+- Any tutorials or reference material
+
 ## Video Demo
