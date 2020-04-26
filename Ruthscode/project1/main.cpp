@@ -1,5 +1,5 @@
 #include "mbed.h"
-#include "uLCD_4DGL.h" 
+#include "uLCD_4DGL.h"
 #include "ultrasonic.h"
 #include "rtos.h"
 #include "PinDetect.h"
@@ -17,9 +17,8 @@ Mutex howMany;
 
 int howManyTodayold = 0;
 int howManyToday = 0;
-// NEED USER INPUT TO INITIILALIZE THIS VALUE
-int dailyLimit; // DEFAULT: CALL DATABASE TO UPDATE THE AMOUNT
-int increment = 20; // DEFAULT: CALL DATABASE TO UPDATE THE AMOUNT
+int dailyLimit;
+int increment = 20; // DEFAULT: USE DATABASE TO UPDATE THE AMOUNT
 std::string foodName = "";  // so save the food name
 std::string macro = ""; // to save user's desired macro
 std::string daily = ""; // to save daily amount
@@ -51,7 +50,7 @@ void dist(int distance)
             uLCD.locate(6,14);
             uLCD.printf("%s", macro);
 
-                    
+
             } else {
                 uLCD.cls();
                 uLCD.text_width(2);
@@ -72,7 +71,7 @@ void dist(int distance)
                 uLCD.locate(6,14);
                 uLCD.textbackground_color(0x86c5da);
                 uLCD.printf("%s", macro);
-      
+
             }
                 howManyTodayold = howManyToday;
             }
@@ -90,10 +89,10 @@ void updateHowManyToday(void) {
     if (mu.getCurrentDistance() < 50) {
         howMany.lock();
         howManyTodayold = howManyToday;
-        howManyToday++;
+        howManyToday = howManyToday + increment;
         howMany.unlock();
     }
-    
+
 
 }
 
@@ -109,7 +108,7 @@ int main()
     uLCD.textbackground_color(0x86c5da);
     uLCD.color(DGREY);
     uLCD.text_height(1.80);
-    
+
     uLCD.locate(4,2);
     uLCD.printf("WELCOME!");
     uLCD.color(BLACK);
@@ -118,7 +117,7 @@ int main()
     uLCD.printf(" of the food.");
     uLCD.color(WHITE);
     uLCD.locate(1,7);
-    
+
     while (name) {
         if (pc.readable()) {
             char v = pc.getc();
@@ -132,8 +131,8 @@ int main()
                 }
             }
         }
-        
-        
+
+
         uLCD.cls();
         uLCD.filled_rectangle(0,0,127,127,0x86c5da);
         uLCD.line(0, 9, 127, 9, GREEN);
@@ -143,7 +142,7 @@ int main()
         uLCD.textbackground_color(0x86c5da);
         uLCD.color(BLACK);
         uLCD.text_height(1);
-            
+
         uLCD.locate(1,1);
         uLCD.printf("What macro are you monitoring? : \n\n1. Carbs\n2. Protein\n3. Fat \n4. Calories \n");
         uLCD.color(WHITE);
@@ -162,11 +161,11 @@ int main()
                 } else if (v == '4') {
                     startUp = 0;
                     macro = "Calories";
-                    
+
                     }
             }
         }
-        
+
         uLCD.cls();
         uLCD.filled_rectangle(0,0,127,127,0x86c5da);
         uLCD.line(0, 9, 127, 9, GREEN);
@@ -177,10 +176,10 @@ int main()
         uLCD.color(BLACK);
         uLCD.locate(1,2);
         uLCD.text_height(1);
-            
+
         uLCD.printf("What will be your daily limit?\n ");
         uLCD.color(WHITE);
-        
+
         while (limit) {
             if (pc.readable()){
                 char v = pc.getc();
@@ -191,15 +190,15 @@ int main()
                     uLCD.printf("%c" , v);
                 }
             }
-            
+
         }
-        
+
         std::istringstream iss (daily);
         iss >> dailyLimit;
-        
-        
+
+
             // CALL DATABASE ENTRY HERE using "foodName" and "macro" TO UPDATE "increment (int)"
-            
+
 
     uLCD.cls();
     uLCD.filled_rectangle(0,0,127,127,0x86c5da);
@@ -220,13 +219,13 @@ int main()
     uLCD.text_height(1);
     uLCD.locate(6,14);
     uLCD.printf("%s", macro);
-    
+
     pc.baud(9600);
     mu.startUpdates();//start measuring the distance
     pb.attach_deasserted(&updateHowManyToday);
     pb.mode(PullUp);
     pb.setSampleFrequency();
-    
+
     // PWR MNGT
     PHY_PowerDown();
     //Peripheral_PowerDown(0xFEF6FFCF);
@@ -239,37 +238,37 @@ int main()
     Peripheral_PowerDown(LPC1768_PCONP_PCSPI);  //SPI
     Peripheral_PowerDown(LPC1768_PCONP_PCRTC);  //RTC
     Peripheral_PowerDown(LPC1768_PCONP_PCSSP1); //SSP
-    
+
     // bit 11: Reserved
 
     Peripheral_PowerDown(LPC1768_PCONP_PCADC); // bit12: A/D converter power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCCAN1); // bit 13: CAN controller 1 power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCCAN2);   // bit 14: CAN controller 2 power/clock enable
 // bit 15: PCGPIO: GPIOs power/clock enable
-    //Peripheral_PowerDown(LPC1768_PCONP_PCGPIO); 
+    //Peripheral_PowerDown(LPC1768_PCONP_PCGPIO);
 
     Peripheral_PowerDown(LPC1768_PCONP_PCRIT); //bit 16: Repetitive interrupt timer power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCMCPWM);  // bit 17: Motor control PWM power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCQEI); // bit 18: Quadrature encoder interface power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCI2C1); // bit 19: I2C interface 1 power/clock enable
-    
+
 // bit 20: Reserved
-    Peripheral_PowerDown(LPC1768_PCONP_PCSSP0); // bit 21: PCSSP0: SSP interface 0 power/clock enable 
+    Peripheral_PowerDown(LPC1768_PCONP_PCSSP0); // bit 21: PCSSP0: SSP interface 0 power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCTIM2); // bit 22: PCTIM2: Timer 2 power/clock enable
 // bit 23: PCTIM3: Timer 3 power/clock enable
-    //Peripheral_PowerDown(LPC1768_PCONP_PCQTIM3); 
+    //Peripheral_PowerDown(LPC1768_PCONP_PCQTIM3);
 // bit 24: PCUART2: UART 2 power/clock enable
-    //Peripheral_PowerDown(LPC1768_PCONP_PCUART2); 
-    
+    //Peripheral_PowerDown(LPC1768_PCONP_PCUART2);
+
     Peripheral_PowerDown(LPC1768_PCONP_PCUART3); // bit 25: UART 3 power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCI2C2); // bit 26: I2C interface 2 power/clock enable
-    Peripheral_PowerDown(LPC1768_PCONP_PCI2S);  // bit 27: PCI2S: I2S interface power/clock enable      
-    
+    Peripheral_PowerDown(LPC1768_PCONP_PCI2S);  // bit 27: PCI2S: I2S interface power/clock enable
+
 // bit 28: Reserved
     Peripheral_PowerDown(LPC1768_PCONP_PCGPDMA);  // bit 29:GP DMA function power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCENET); // bit 30:Ethernet block power/clock enable
-    Peripheral_PowerDown(LPC1768_PCONP_PCUSB); // bit 31: PCUSB: USB interface power/clock enable     
-  
+    Peripheral_PowerDown(LPC1768_PCONP_PCUSB); // bit 31: PCUSB: USB interface power/clock enable
+
      // only BIT 23, 24, 15 need to be on, but htis ths isnt working
      //Peripheral_PowerDown(0xFFFEFE7F);
     //Peripheral_PowerDown(0x7BEEF677);
@@ -279,6 +278,6 @@ int main()
         Sleep();
         mu.checkDistance();     //call checkDistance() as much as possible, as this is where
                                 //the class checks if dist needs to be called.
-    wait(0.002);                           
+    wait(0.002);
     }
 }

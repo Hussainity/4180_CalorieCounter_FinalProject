@@ -19,8 +19,8 @@ The goal of our device is to help maintain accountability for a person towards a
 * **Pushbutton**: to update user intake
 * **SD card**: the log the info of user intake
 * **HC-SR04 Sonar Sensor**: to detect when someone is close by; used towards power management
-* **Speaker** : to play noise when necessary
 * **Battery Pack, Barrel Jack Adapter**: Power Source
+* **Speaker**
 
 ## Wiring
 |Mbed | uLCD|
@@ -66,8 +66,5 @@ The goal of our device is to help maintain accountability for a person towards a
 ### Other Possible  Topics to include
 - Power management
 - More on MyFitnessPal API and/or AWS
-
-## Resources Used
-- Any tutorials or reference material
 
 ## Video Demo
