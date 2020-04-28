@@ -45,7 +45,7 @@ int howManyToday = 0;
 int dailyLimit;
 double increment = 0; // DEFAULT: USE DATABASE TO UPDATE THE AMOUNT
 std::string foodName = "";  // so save the food name
-std::string macro = ""; // to save user's desired macro
+std::string macroName = ""; // to save user's desired macro
 std::string daily = ""; // to save daily amount
 std:: string stringTime  = ""; // to save current time and date
 std:: string todayIs = "";
@@ -220,7 +220,7 @@ void dist(int distance)
             uLCD.text_height(2);
             uLCD.textbackground_color(RED);
             uLCD.locate(6,14);
-            uLCD.printf("%s", macro);
+            uLCD.printf("%s", macroName);
 
             // Play warning song
             play_song();
@@ -244,7 +244,7 @@ void dist(int distance)
                 uLCD.text_height(1);
                 uLCD.locate(6,14);
                 uLCD.textbackground_color(0x86c5da);
-                uLCD.printf("%s", macro);
+                uLCD.printf("%s", macroName);
 
             }
                 howManyTodayold = howManyToday;
@@ -284,7 +284,7 @@ void updateTime(){
         todayIs = test.substr(0,10);
         fprintf(fp, "\n%s\n\n", todayIs.c_str());
     }
-    fprintf(fp, "%s, %d g, %s\n", foodName.c_str(), increment, macro.c_str());
+    fprintf(fp, "%s, %d g, %s\n", foodName.c_str(), increment, macroName.c_str());
     fclose(fp);
 }
 
@@ -342,16 +342,16 @@ int main() {
                 char v = pc.getc();
                 if (v == '1') {
                     startUp = 0;
-                    macro = "Carbs";
+                    macroName = "Carbs";
                 } else if (v == '2') {
                     startUp = 0;
-                    macro = "Protein";
+                    macroName = "Protein";
                 } else if (v == '3') {
                     startUp = 0;
-                    macro = "Fat";
+                    macroName = "Fat";
                 } else if (v == '4') {
                     startUp = 0;
-                    macro = "Calories";
+                    macroName = "Calories";
 
                     }
             }
@@ -423,7 +423,7 @@ int main() {
     esp.baud(9600);     // ESP baud rate
     //ESPconfig();
     //increment = queryMFP(foodName, macro);
-    increment = MFP_LookupTest(foodName, macro);
+    increment = MFP_LookupTest(foodName, macroName);
 
     // Continuosly get AP list and IP, maybe for the end?
     /*while(1) {
@@ -473,7 +473,7 @@ int main() {
     uLCD.text_width(1);
     uLCD.text_height(1);
     uLCD.locate(6,14);
-    uLCD.printf("%s", macro);
+    uLCD.printf("%s", macroName);
 
     pc.baud(9600);
     mu.startUpdates();//start measuring the distance
@@ -527,7 +527,7 @@ int main() {
     Peripheral_PowerDown(LPC1768_PCONP_PCGPDMA);  // bit 29:GP DMA function power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCENET); // bit 30:Ethernet block power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCUSB); // bit 31: PCUSB: USB interface power/clock enable
-
+  
      // only BIT 23, 24, 15 need to be on, but htis ths isnt working
      //Peripheral_PowerDown(0xFFFEFE7F);
     //Peripheral_PowerDown(0x7BEEF677);
