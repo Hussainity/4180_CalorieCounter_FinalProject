@@ -63,16 +63,15 @@ void ESPconfig()
 
     wait(5);
     pc.printf("\f---------- Starting ESP Config ----------\r\n\n");
-        strcpy(snd,".\r\n.\r\n");
+    strcpy(snd,".\r\n.\r\n");
     SendCMD();
-        wait(1);
+    wait(1);
     pc.printf("---------- Reset & get Firmware ----------\r\n");
     strcpy(snd,"node.restart()\r\n");
     SendCMD();
     timeout=5;
     getreply();
     pc.printf(buf);
-
     wait(2);
 
     // set CWMODE to 1=Station,2=AP,3=BOTH, default mode 1 (Station)
@@ -82,7 +81,6 @@ void ESPconfig()
     timeout=4;
     getreply();
     pc.printf(buf);
-
     wait(2);
 
     pc.printf("\n---------- Connecting to AP ----------\r\n");
