@@ -43,14 +43,14 @@ The goal of our device is to help maintain accountability for a person towards a
 |Gnd|Gnd|
 |p25| +|
 
-|2N3904|Speaker|
-|----|----|
-|C| -|
-
 |Mbed|2N3904|
 |----|----|
 |Gnd| E|
 |p18 (330 ohm)| B|
+
+|2N3904|Speaker|
+|----|----|
+|C| -|
 
 |Mbed|Speaker|
 |----|----|
