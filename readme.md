@@ -41,7 +41,7 @@ The goal of our device is to help maintain accountability for a person towards a
 |Mbed|Pushbutton|
 |---|---|
 |Gnd|Gnd|
-|p26| pb|
+|p25| +|
 
 
 
@@ -64,7 +64,7 @@ The goal of our device is to help maintain accountability for a person towards a
 - main project code
 
 ### Other Possible  Topics to include
-- Power management
+- Power management?
 - More on MyFitnessPal API and/or AWS
 
 ## Video Demo
