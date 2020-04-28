@@ -66,7 +66,14 @@ The goal of our device is to help maintain accountability for a person towards a
 |p5| DI|
 |p8| Cs|
 
-
+|Mbed|Adafruit BLE|
+|----|----|
+|Gnd|Gnd|
+|VU(5v)|Vin(3.3-16V)|
+|nc|RTS|
+|Gnd|CTS|
+|p14|TXO|
+|p13|RXI|
 
 ## How to use
 1. Attach the device onto the container of targeted food/snacks
