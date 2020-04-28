@@ -30,6 +30,9 @@ SDFileSystem sd(p5, p6, p7, p8, "sd"); //SD card
 AnalogOut DACout(p18);
 wave_player waver(&DACout);
 
+// Pins used for Bluetooth
+RawSerial blue(p13,p14);
+
 // --------------------------------------- Variable Declarations ---------------------------------------
 // Variables used for WiFi
 int  lcount,lended,ltimeout;
@@ -171,16 +174,6 @@ void getreply()
     }
 }
 
-// Functions used for uLCD and Sonar
-/*void updateTime(){
-    time_t curTime = time(NULL);
-    std:: string test = asctime(localtime(&curTime));
-    if (todayIs.compare(test.substr(0,3)) != 0){
-        howManyToday = 0;
-        todayIs = test.substr(0,3);
-    }
-}*/
-
 time_t asUnixTime(int year, int mon, int mday, int hour, int min, int sec) {
     struct tm   t;
     t.tm_year = year - 1900;
@@ -284,7 +277,7 @@ void updateTime(){
         todayIs = test.substr(0,10);
         fprintf(fp, "\n%s\n\n", todayIs.c_str());
     }
-    fprintf(fp, "%s, %d g, %s\n", foodName.c_str(), increment, macroName.c_str());
+    fprintf(fp, "%s, %d g, %s\n", foodName.c_str(), (int)increment, macroName.c_str());
     fclose(fp);
 }
 
@@ -311,8 +304,8 @@ int main() {
     uLCD.locate(1,7);
 
     while (name) {
-        if (pc.readable()) {
-            char v = pc.getc();
+        if (blue.readable()) {
+            char v = blue.getc();
             if (v == '!'){
                 name = 0;
             } else if (int(v) == 8) {
@@ -338,8 +331,8 @@ int main() {
         uLCD.printf("What macro are you monitoring? : \n\n1. Carbs\n2. Protein\n3. Fat \n4. Calories \n");
         uLCD.color(WHITE);
         while(startUp) {
-            if (pc.readable() ){
-                char v = pc.getc();
+            if (blue.readable() ){
+                char v = blue.getc();
                 if (v == '1') {
                     startUp = 0;
                     macroName = "Carbs";
@@ -372,8 +365,8 @@ int main() {
         uLCD.color(WHITE);
 
         while (limit) {
-            if (pc.readable()){
-                char v = pc.getc();
+            if (blue.readable()){
+                char v = blue.getc();
                 if (v == '!') {
                     limit = 0;
                 } else {
@@ -401,8 +394,8 @@ int main() {
         uLCD.color(WHITE);
 
         while (settingTime) {
-            if (pc.readable()){
-                char v = pc.getc();
+            if (blue.readable()){
+                char v = blue.getc();
                 if (v == '!') {
                     settingTime = 0;
                 } else {
@@ -424,11 +417,6 @@ int main() {
     //ESPconfig();
     //increment = queryMFP(foodName, macro);
     increment = MFP_LookupTest(foodName, macroName);
-
-    // Continuosly get AP list and IP, maybe for the end?
-    /*while(1) {
-        sleep();
-    }*/
 
     // After calling database
     // TIME
@@ -527,7 +515,7 @@ int main() {
     Peripheral_PowerDown(LPC1768_PCONP_PCGPDMA);  // bit 29:GP DMA function power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCENET); // bit 30:Ethernet block power/clock enable
     Peripheral_PowerDown(LPC1768_PCONP_PCUSB); // bit 31: PCUSB: USB interface power/clock enable
-  
+
      // only BIT 23, 24, 15 need to be on, but htis ths isnt working
      //Peripheral_PowerDown(0xFFFEFE7F);
     //Peripheral_PowerDown(0x7BEEF677);
