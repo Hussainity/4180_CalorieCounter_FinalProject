@@ -43,6 +43,29 @@ The goal of our device is to help maintain accountability for a person towards a
 |Gnd|Gnd|
 |p25| +|
 
+|Mbed|2N3904|
+|----|----|
+|Gnd| E|
+|p18 (330 ohm)| B|
+
+|2N3904|Speaker|
+|----|----|
+|C| -|
+
+|Mbed|Speaker|
+|----|----|
+|Vu| +|
+
+|Mbed|SD Card|
+|----|----|
+|-| Cd|
+|p6| Do|
+|Gnd| Gnd|
+|p7| SCK|
+|Vout| Vcc|
+|p5| DI|
+|p8| Cs|
+
 
 
 ## How to use
