@@ -174,6 +174,16 @@ void getreply()
     }
 }
 
+// Functions used for uLCD and Sonar
+/*void updateTime(){
+    time_t curTime = time(NULL);
+    std:: string test = asctime(localtime(&curTime));
+    if (todayIs.compare(test.substr(0,3)) != 0){
+        howManyToday = 0;
+        todayIs = test.substr(0,3);
+    }
+}*/
+
 time_t asUnixTime(int year, int mon, int mday, int hour, int min, int sec) {
     struct tm   t;
     t.tm_year = year - 1900;
@@ -417,6 +427,11 @@ int main() {
     //ESPconfig();
     //increment = queryMFP(foodName, macro);
     increment = MFP_LookupTest(foodName, macroName);
+
+    // Continuosly get AP list and IP, maybe for the end?
+    /*while(1) {
+        sleep();
+    }*/
 
     // After calling database
     // TIME
