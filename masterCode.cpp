@@ -70,11 +70,6 @@ void updateTime();
 
 // --------------------------------------- Begin Code ---------------------------------------
 // Functions used for WiFi
-double MFP_LookupTest(string food, string macro)
-{
-  return food.at(0) - 'a';
-}
-
 double queryMFP(string food, string macro)
 {
     wait(1);
@@ -174,16 +169,6 @@ void getreply()
     }
 }
 
-// Functions used for uLCD and Sonar
-/*void updateTime(){
-    time_t curTime = time(NULL);
-    std:: string test = asctime(localtime(&curTime));
-    if (todayIs.compare(test.substr(0,3)) != 0){
-        howManyToday = 0;
-        todayIs = test.substr(0,3);
-    }
-}*/
-
 time_t asUnixTime(int year, int mon, int mday, int hour, int min, int sec) {
     struct tm   t;
     t.tm_year = year - 1900;
@@ -218,7 +203,7 @@ void dist(int distance)
             uLCD.text_width(1);
             uLCD.text_height(2);
             uLCD.printf("%d / %d\n", howManyToday, dailyLimit);
-            uLCD.color(WHITE);
+            uLCD.color(BLACK);
             uLCD.text_width(1);
             uLCD.text_height(2);
             uLCD.textbackground_color(RED);
@@ -242,7 +227,7 @@ void dist(int distance)
                 uLCD.text_width(1);
                 uLCD.text_height(2);
                 uLCD.printf("%d / %d\n", howManyToday, dailyLimit);
-                uLCD.color(WHITE);
+                uLCD.color(BLACK);
                 uLCD.text_width(1);
                 uLCD.text_height(1);
                 uLCD.locate(6,14);
@@ -310,7 +295,7 @@ int main() {
     uLCD.locate(1,4);
     uLCD.printf("Please enter the name");
     uLCD.printf(" of the food.");
-    uLCD.color(WHITE);
+    uLCD.color(BLACK);
     uLCD.locate(1,7);
 
     while (name) {
@@ -339,7 +324,7 @@ int main() {
 
         uLCD.locate(1,1);
         uLCD.printf("What macro are you monitoring? : \n\n1. Carbs\n2. Protein\n3. Fat \n4. Calories \n");
-        uLCD.color(WHITE);
+        uLCD.color(BLACK);
         while(startUp) {
             if (blue.readable() ){
                 char v = blue.getc();
@@ -372,7 +357,7 @@ int main() {
         uLCD.text_height(1);
 
         uLCD.printf("What will be your daily limit?\n ");
-        uLCD.color(WHITE);
+        uLCD.color(BLACK);
 
         while (limit) {
             if (blue.readable()){
@@ -401,7 +386,7 @@ int main() {
         uLCD.text_height(1);
         uLCD.locate(1,1);
         uLCD.printf("Please enter date and military time\nMM/DD/YYYY HH:MM:SS)\n");
-        uLCD.color(WHITE);
+        uLCD.color(BLACK);
 
         while (settingTime) {
             if (blue.readable()){
@@ -424,14 +409,8 @@ int main() {
     ltimeout=2;
     getreply();
     esp.baud(9600);     // ESP baud rate
-    //ESPconfig();
-    //increment = queryMFP(foodName, macro);
-    increment = MFP_LookupTest(foodName, macroName);
-
-    // Continuosly get AP list and IP, maybe for the end?
-    /*while(1) {
-        sleep();
-    }*/
+    ESPconfig();
+    increment = queryMFP(foodName, macro);
 
     // After calling database
     // TIME
@@ -471,7 +450,7 @@ int main() {
     uLCD.text_width(1);
     uLCD.text_height(2);
     uLCD.printf("%d / %d", howManyToday, dailyLimit);
-    uLCD.color(WHITE);
+    uLCD.color(BLACK);
     uLCD.textbackground_color(0x86c5da);
     uLCD.text_width(1);
     uLCD.text_height(1);
@@ -485,7 +464,7 @@ int main() {
     pb.setSampleFrequency();
 
     //checkTime.attach(&updateTime, 10);
-    /*
+
     // PWR MNGT
     PHY_PowerDown();
     //Peripheral_PowerDown(0xFEF6FFCF);
@@ -534,7 +513,7 @@ int main() {
      // only BIT 23, 24, 15 need to be on, but htis ths isnt working
      //Peripheral_PowerDown(0xFFFEFE7F);
     //Peripheral_PowerDown(0x7BEEF677);
-    */
+
     // Sonar code
     while(1)
     {
