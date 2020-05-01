@@ -38,8 +38,8 @@ RawSerial blue(p13,p14);
 int  lcount,lended,ltimeout;
 char buf[2024];
 char snd[1024];
-char ssid[32] = "CustomFi";         // enter WiFi router ssid inside the quotes
-char pwd [32] = "#KeepBallin19";    // enter WiFi router password inside the quotes
+char ssid[32] = "ssid";         // enter WiFi router ssid inside the quotes
+char pwd [32] = "password";    // enter WiFi router password inside the quotes
 
 // Variables used for uLCD and Sonar
 int year, month, day, hr, mn, sec;
